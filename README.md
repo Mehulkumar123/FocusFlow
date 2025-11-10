@@ -97,18 +97,60 @@ npm run build
 
 ## 🖼️ Project Structure
 
-```
-FocusFlow/
-├── public/
-├── src/
-│   ├── components/
-│   ├── assets/
-│   ├── App.tsx
-│   └── main.tsx
-├── index.html
+```FocusFlow/
+│
+├── node_modules/               # Installed npm dependencies
+├── public/                     # Static assets (favicon, manifest, etc.)
+├── src/                        # Main application source
+│   │
+│   ├── assets/                 # Images, icons, sounds, etc.
+│   │
+│   ├── components/             # Reusable UI components
+│   │   ├── Layout.tsx          # App layout wrapper
+│   │   └── Sidebar.tsx         # Sidebar navigation + theming controls
+│   │
+│   ├── pages/                  # Full-page React views
+│   │   ├── Analytics.tsx       # Productivity stats, charts, analytics
+│   │   ├── Kanban.tsx          # Task board (drag-and-drop task management)
+│   │   ├── Pomodoro.tsx        # Pomodoro timer interface
+│   │   └── Settings.tsx        # App customization and theme options
+│   │
+│   ├── stores/                 # State management (probably using Zustand/Pinia-like structure)
+│   │   ├── kanbanStore.ts      # Kanban board data (tasks, columns)
+│   │   ├── pomodoroStore.ts    # Timer and session tracking state
+│   │   ├── settingsStore.ts    # Theme, preferences, and persistent user settings
+│   │   └── storageHelper.ts    # Utility for saving/loading from localStorage
+│   │
+│   ├── utils/                  # Helper & utility functions
+│   │   ├── exportHelper.ts     # Export data (CSV/JSON)
+│   │   ├── formatHelper.ts     # Format time, task data, etc.
+│   │   ├── index.ts            # Utility index/barrel file
+│   │   ├── keyboardHelper.ts   # Keyboard shortcuts (e.g., toggle theme, start timer)
+│   │   ├── notificationHelper.ts # Browser/system notifications
+│   │   ├── performanceHelper.ts  # Performance optimizations, throttling
+│   │   ├── soundHelper.ts        # Sound effects (Pomodoro ticks, notifications)
+│   │   ├── storageHelper.ts      # Persistent data handling (duplicate helper)
+│   │   ├── themeHelper.ts        # Theme switching, dark/light mode logic
+│   │   └── validationHelper.ts   # Data validation utilities
+│   │
+│   ├── App.css
+│   ├── App.tsx                 # Main app component
+│   ├── index.css
+│   └── main.tsx                # Entry point (renders <App /> into root)
+│
+├── .gitignore
+├── eslint.config.js
+├── index.html                  # HTML entry file (Vite mount point)
 ├── package.json
+├── package-lock.json
+├── postcss.config.js
 ├── tailwind.config.js
-└── tsconfig.json
+├── tsconfig.json
+├── tsconfig.app.json
+├── tsconfig.node.json
+├── vite.config.ts              # Vite bundler configuration
+└── README.md
+
 ```
 
 ---
