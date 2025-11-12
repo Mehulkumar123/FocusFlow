@@ -1,7 +1,12 @@
+<<<<<<< HEAD
+=======
+/* src/index.css - COMPLETE v7.5 NO PULSING */
+>>>>>>> d2c9fcc (update v7.6 and lot of improvements)
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+<<<<<<< HEAD
 /* Custom scrollbar */
 .custom-scrollbar::-webkit-scrollbar {
   width: 6px;
@@ -82,4 +87,413 @@
 .compact-mode .btn {
   padding-left: 0.75rem;
   padding-right: 0.75rem;
+=======
+/* ==========================================
+   ROOT VARIABLES & FONTS
+   ========================================== */
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light dark;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ==========================================
+   GLOBAL ANTI-PULSE CONFIGURATION
+   ========================================== */
+
+/* Kill all pulse and keyframe animations globally */
+*,
+*::before,
+*::after {
+  animation: none !important;
+}
+
+/* Override any animate-pulse classes */
+.animate-pulse,
+[class*="animate-pulse"],
+[class*="pulse"] {
+  animation: none !important;
+  opacity: 1 !important;
+}
+
+/* Disable all @keyframes except safe transitions */
+@keyframes none {
+  to {
+    /* intentionally empty */
+  }
+}
+
+/* Override pulse keyframe */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ==========================================
+   BUTTON FIXES - NO PULSING
+   ========================================== */
+
+.btn {
+  animation: none !important;
+  transition: transform 150ms ease, background-color 150ms ease, color 150ms ease, box-shadow 150ms ease;
+}
+
+.btn:hover {
+  animation: none !important;
+  transform: scale(1.05);
+}
+
+.btn:active {
+  animation: none !important;
+  transform: scale(0.95);
+}
+
+.btn:focus {
+  animation: none !important;
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.btn:focus-visible {
+  animation: none !important;
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* Button circle specific */
+.btn-circle {
+  animation: none !important;
+}
+
+.btn-circle:hover {
+  animation: none !important;
+  transform: scale(1.1);
+}
+
+.btn-circle:active {
+  animation: none !important;
+  transform: scale(0.9);
+}
+
+/* ==========================================
+   INTERACTIVE ELEMENTS - STATIC
+   ========================================== */
+
+/* Progress bars */
+.progress {
+  animation: none !important;
+  transition: width 300ms ease-out;
+}
+
+/* Badges */
+.badge {
+  animation: none !important;
+}
+
+/* Cards */
+.card {
+  animation: none !important;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.card:hover {
+  animation: none !important;
+}
+
+/* Loading states - disable completely */
+.loading,
+.loading-spinner,
+.loading-dots,
+.loading-ring,
+.loading-ball {
+  animation: none !important;
+}
+
+/* Toggle switches */
+.toggle {
+  animation: none !important;
+  transition: background-color 150ms ease;
+}
+
+/* Checkboxes */
+.checkbox {
+  animation: none !important;
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+/* Radio buttons */
+.radio {
+  animation: none !important;
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+/* Range sliders */
+.range {
+  animation: none !important;
+}
+
+/* Inputs */
+.input:focus,
+.textarea:focus,
+.select:focus {
+  animation: none !important;
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* ==========================================
+   SAFE TRANSITIONS (ALLOWED)
+   ========================================== */
+
+@layer utilities {
+  /* Only allow specific safe transitions */
+  .transition-all {
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+  
+  .transition-colors {
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+  
+  .transition-transform {
+    transition-property: transform;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+  
+  .transition-opacity {
+    transition-property: opacity;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+  
+  .transition-shadow {
+    transition-property: box-shadow;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+}
+
+/* ==========================================
+   CUSTOM SCROLLBAR
+   ========================================== */
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--bc) / 0.3) hsl(var(--b3));
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: hsl(var(--b3));
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: hsl(var(--bc) / 0.3);
+  border-radius: 4px;
+  transition: background 150ms ease;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--bc) / 0.5);
+}
+
+/* ==========================================
+   UTILITY CLASSES
+   ========================================== */
+
+/* Static hover effects */
+.hover-scale:hover {
+  transform: scale(1.05);
+  transition: transform 150ms ease;
+}
+
+.hover-scale:active {
+  transform: scale(0.95);
+}
+
+/* Line clamp utilities */
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+/* ==========================================
+   MODAL & OVERLAY FIXES
+   ========================================== */
+
+.modal {
+  animation: none !important;
+}
+
+.modal-box {
+  animation: none !important;
+  transition: transform 200ms ease, opacity 200ms ease;
+}
+
+.modal-backdrop {
+  animation: none !important;
+  transition: opacity 200ms ease;
+}
+
+/* ==========================================
+   DROPDOWN & MENU FIXES
+   ========================================== */
+
+.dropdown-content {
+  animation: none !important;
+  transition: opacity 150ms ease, transform 150ms ease;
+}
+
+.menu li > * {
+  animation: none !important;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+/* ==========================================
+   TOAST & NOTIFICATION FIXES
+   ========================================== */
+
+.alert {
+  animation: none !important;
+}
+
+.toast {
+  animation: none !important;
+}
+
+/* ==========================================
+   DAISYUI COMPONENT OVERRIDES
+   ========================================== */
+
+/* Tabs */
+.tab {
+  animation: none !important;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.tab-active {
+  animation: none !important;
+}
+
+/* Steps */
+.step {
+  animation: none !important;
+}
+
+/* Collapse */
+.collapse {
+  animation: none !important;
+}
+
+/* Drawer */
+.drawer-toggle:checked ~ .drawer-side {
+  animation: none !important;
+  transition: transform 300ms ease;
+}
+
+/* Swap */
+.swap {
+  animation: none !important;
+}
+
+/* ==========================================
+   FOCUS STYLES
+   ========================================== */
+
+:focus-visible {
+  outline: 2px solid hsl(var(--p));
+  outline-offset: 2px;
+  animation: none !important;
+}
+
+/* Remove default focus ring for mouse users */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ==========================================
+   PRINT STYLES
+   ========================================== */
+
+@media print {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ==========================================
+   ACCESSIBILITY - REDUCED MOTION
+   ========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ==========================================
+   DARK MODE SPECIFIC
+   ========================================== */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+  }
+}
+
+/* ==========================================
+   SELECTION STYLES
+   ========================================== */
+
+::selection {
+  background-color: hsl(var(--p) / 0.3);
+  color: hsl(var(--pc));
+}
+
+::-moz-selection {
+  background-color: hsl(var(--p) / 0.3);
+  color: hsl(var(--pc));
+>>>>>>> d2c9fcc (update v7.6 and lot of improvements)
 }

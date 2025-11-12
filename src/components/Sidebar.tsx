@@ -1,16 +1,26 @@
+// components/Sidebar.tsx - ADD Info TO IMPORTS
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Timer, LayoutGrid, BarChart3, Settings, ChevronLeft, ChevronRight, Circle, Calendar as CalendarIcon, Clock as ClockIcon, Flame, TrendingUp, Cloud, Quote } from 'lucide-react';
+import {
+  Timer, LayoutGrid, BarChart3, Settings, ChevronLeft, ChevronRight,
+  Circle, Calendar as CalendarIcon, Clock as ClockIcon, Flame, TrendingUp,
+  Cloud, Quote, Zap, Target, 
+  Info // ✅ ADD THIS LINE
+} from 'lucide-react';
 import { useSettingsStore } from '../stores/settingsStore';
 import { usePomodoroStore } from '../stores/pomodoroStore';
 import { useKanbanStore } from '../stores/kanbanStore';
 import { formatHelper } from '../utils';
+
+// Rest of your Sidebar code stays the same...
+
 
 const Sidebar = () => {
   const location = useLocation();
   const [currentTime, setCurrentTime] = useState(new Date());
   const [streak, setStreak] = useState(0);
   const [dailyQuote, setDailyQuote] = useState('');
+  const [weather, setWeather] = useState({ temp: 72, condition: 'Sunny' });
   
   const {
     sidebarCollapsed,
@@ -24,6 +34,7 @@ const Sidebar = () => {
     sidebarShowStats,
     sidebarShowWeather,
     sidebarShowQuote,
+    sidebarShowQuickActions,
     sidebarCompactMode,
     sidebarOpacity,
     sidebarBlur,
@@ -87,6 +98,11 @@ const Sidebar = () => {
       "Don't watch the clock; do what it does. Keep going.",
       "The way to get started is to quit talking and begin doing.",
       "Your limitation—it's only your imagination.",
+      "Dream it. Wish it. Do it.",
+      "Stay focused, go after your dreams.",
+      "Do something today that your future self will thank you for.",
+      "Little things make big days.",
+      "It's going to be hard, but hard does not mean impossible.",
     ];
     const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
     setDailyQuote(randomQuote);
@@ -138,12 +154,13 @@ const Sidebar = () => {
     }
   };
 
-  const menuItems = [
-    { path: '/pomodoro', icon: Timer, label: 'Pomodoro' },
-    { path: '/kanban', icon: LayoutGrid, label: 'Kanban' },
-    { path: '/analytics', icon: BarChart3, label: 'Analytics' },
-    { path: '/settings', icon: Settings, label: 'Settings' },
-  ];
+const menuItems = [
+  { path: '/pomodoro', icon: Timer, label: 'Pomodoro' },
+  { path: '/kanban', icon: LayoutGrid, label: 'Kanban' },
+  { path: '/analytics', icon: BarChart3, label: 'Analytics' },
+  { path: '/settings', icon: Settings, label: 'Settings' },
+  { path: '/about', icon: Info, label: 'About' }, // NEW
+];
 
   const padding = sidebarCompactMode ? 'p-2' : 'p-4';
   const itemPadding = sidebarCompactMode ? 'px-3 py-2' : 'px-4 py-3';
@@ -171,7 +188,7 @@ const Sidebar = () => {
             <Circle size={24} className="text-primary" fill="currentColor" />
             <div>
               <h1 className={`font-bold ${getFontSizeClass()}`}>FocusFlow</h1>
-              <p className="text-xs opacity-60">v6.0 Pro</p>
+              <p className="text-xs opacity-60">v7.6</p>
             </div>
           </div>
         )}
@@ -214,8 +231,8 @@ const Sidebar = () => {
               <span className={`${getFontSizeClass()} font-medium`}>Weather</span>
             </div>
             <div className="text-right">
-              <p className="font-bold text-lg">72°F</p>
-              <p className="text-xs opacity-70">Sunny</p>
+              <p className="font-bold text-lg">{weather.temp}°F</p>
+              <p className="text-xs opacity-70">{weather.condition}</p>
             </div>
           </div>
         </div>
@@ -282,6 +299,25 @@ const Sidebar = () => {
           <div className="flex items-start gap-2">
             <Quote size={getIconSize()} className="text-accent mt-1 flex-shrink-0" />
             <p className={`${sidebarFontSize === 'small' ? 'text-xs' : 'text-sm'} italic opacity-80`}>{dailyQuote}</p>
+          </div>
+        </div>
+      )}
+
+      {/* Quick Actions - NEW */}
+      {!sidebarCollapsed && sidebarShowQuickActions && (
+        <div className={`${padding} border-b border-base-300`}>
+          <div className="space-y-2">
+            <p className={`${sidebarFontSize === 'small' ? 'text-xs' : 'text-sm'} font-medium mb-2 opacity-70`}>Quick Actions</p>
+            <div className="grid grid-cols-2 gap-2">
+              <Link to="/pomodoro" className="btn btn-sm btn-ghost justify-start gap-2">
+                <Zap size={14} />
+                <span className="text-xs">Start</span>
+              </Link>
+              <Link to="/kanban" className="btn btn-sm btn-ghost justify-start gap-2">
+                <Target size={14} />
+                <span className="text-xs">Tasks</span>
+              </Link>
+            </div>
           </div>
         </div>
       )}

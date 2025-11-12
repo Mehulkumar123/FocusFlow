@@ -1,7 +1,12 @@
+<<<<<<< HEAD
+=======
+// pages/Kanban.tsx - v8.1 COMPLETE & FIXED
+>>>>>>> d2c9fcc (update v7.6 and lot of improvements)
 import { useState } from 'react';
 import { useKanbanStore, type Card, type List } from '../stores/kanbanStore';
 import { useSettingsStore } from '../stores/settingsStore';
 import {
+<<<<<<< HEAD
   DndContext,
   type DragEndEvent,
   DragOverlay,
@@ -37,10 +42,31 @@ const KanbanCard = ({
   onEdit, 
   onDelete,
   cardNumber,
+=======
+  DndContext, type DragEndEvent, DragOverlay, type DragStartEvent,
+  PointerSensor, MouseSensor, TouchSensor, KeyboardSensor,
+  useSensor, useSensors, closestCenter,
+} from '@dnd-kit/core';
+import { 
+  SortableContext, verticalListSortingStrategy, 
+  useSortable, sortableKeyboardCoordinates 
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import {
+  Plus, MoreHorizontal, Edit2, Trash2, Clock, CheckSquare, X,
+  Calendar, GripVertical, AlertCircle, Save, Copy, Archive,
+  Search, Activity, Flag
+} from 'lucide-react';
+
+// ✅ Enhanced Card Component
+const KanbanCard = ({ 
+  card, onEdit, onDelete, onDuplicate, onArchive, cardNumber,
+>>>>>>> d2c9fcc (update v7.6 and lot of improvements)
 }: { 
   card: Card; 
   onEdit: () => void; 
   onDelete: () => void;
+<<<<<<< HEAD
   cardNumber?: number;
 }) => {
   const { 
@@ -67,16 +93,35 @@ const KanbanCard = ({
       duration: dragAnimationDuration,
       easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
     },
+=======
+  onDuplicate: () => void;
+  onArchive: () => void;
+  cardNumber?: number;
+}) => {
+  const { 
+    showCardNumbers, cardCompactView, cardStyle, showDragHandles,
+    dragAnimationDuration, highlightOverdueCards, showCardAge, cardHoverPreview,
+  } = useSettingsStore();
+  
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: card.id,
+    transition: { duration: dragAnimationDuration, easing: 'cubic-bezier(0.25, 1, 0.5, 1)' },
+>>>>>>> d2c9fcc (update v7.6 and lot of improvements)
   });
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
+<<<<<<< HEAD
     opacity: isDragging ? 0.4 : 1,
+=======
+    opacity: isDragging ? 0.5 : 1,
+>>>>>>> d2c9fcc (update v7.6 and lot of improvements)
   };
 
   const getCardStyle = () => {
     switch (cardStyle) {
+<<<<<<< HEAD
       case 'elevated':
         return 'shadow-md hover:shadow-xl';
       case 'flat':
@@ -89,18 +134,38 @@ const KanbanCard = ({
   };
 
   const getPriorityColor = (priority: Card['priority']) => {
+=======
+      case 'elevated': return 'shadow-md hover:shadow-xl';
+      case 'flat': return 'bg-base-100';
+      case 'outlined': return 'border-2 border-base-300';
+      default: return 'shadow-md hover:shadow-xl';
+    }
+  };
+
+  const getPriorityColor = (priority?: string) => {
+>>>>>>> d2c9fcc (update v7.6 and lot of improvements)
     switch (priority) {
       case 'high': return 'badge-error';
       case 'medium': return 'badge-warning';
       case 'low': return 'badge-info';
+<<<<<<< HEAD
+=======
+      default: return 'badge-ghost';
+>>>>>>> d2c9fcc (update v7.6 and lot of improvements)
     }
   };
 
   const isOverdue = card.dueDate && new Date(card.dueDate) < new Date();
+<<<<<<< HEAD
   const completedTasks = card.checklist.filter(item => item.completed).length;
   const totalTasks = card.checklist.length;
   const padding = cardCompactView ? 'p-3' : 'p-4';
 
+=======
+  const completedTasks = card.checklist?.filter(item => item.completed).length || 0;
+  const totalTasks = card.checklist?.length || 0;
+  const padding = cardCompactView ? 'p-3' : 'p-4';
+>>>>>>> d2c9fcc (update v7.6 and lot of improvements)
   const cardAge = showCardAge && card.createdAt 
     ? Math.floor((Date.now() - new Date(card.createdAt).getTime()) / (1000 * 60 * 60 * 24))
     : 0;
@@ -109,15 +174,26 @@ const KanbanCard = ({
     <div
       ref={setNodeRef}
       style={style}
+<<<<<<< HEAD
       className={`card bg-base-100 ${getCardStyle()} transition-all mb-3 group ${
         isDragging ? 'rotate-2 scale-105 ring-2 ring-primary' : ''
       } ${isOverdue && highlightOverdueCards ? 'ring-2 ring-error' : ''} ${
         cardHoverPreview ? 'hover:scale-102 hover:z-10' : ''
+=======
+      className={`card bg-base-100 ${getCardStyle()} transition-all mb-3 group relative ${
+        isDragging ? 'rotate-3 scale-110 ring-4 ring-primary z-50' : ''
+      } ${isOverdue && highlightOverdueCards ? 'ring-2 ring-error' : ''} ${
+        cardHoverPreview ? 'hover:scale-[1.02] hover:z-20 hover:shadow-2xl' : ''
+>>>>>>> d2c9fcc (update v7.6 and lot of improvements)
       }`}
     >
       <div className={`card-body ${padding} relative`}>
         {isOverdue && highlightOverdueCards && (
+<<<<<<< HEAD
           <div className="absolute top-2 right-2">
+=======
+          <div className="absolute top-2 right-2 animate-pulse">
+>>>>>>> d2c9fcc (update v7.6 and lot of improvements)
             <AlertCircle size={16} className="text-error" />
           </div>
         )}
@@ -134,11 +210,20 @@ const KanbanCard = ({
               </button>
             )}
             {showCardNumbers && cardNumber && (
+<<<<<<< HEAD
               <span className="text-xs opacity-50 mt-1">#{cardNumber}</span>
             )}
             <h3 
               className="font-semibold text-sm flex-1" 
               {...(!showDragHandles ? { ...attributes, ...listeners } : {})}
+=======
+              <span className="text-xs opacity-50 mt-1 font-mono">#{cardNumber}</span>
+            )}
+            <h3 
+              className="font-semibold text-sm flex-1 cursor-pointer hover:text-primary transition-colors" 
+              {...(!showDragHandles ? { ...attributes, ...listeners } : {})}
+              onClick={onEdit}
+>>>>>>> d2c9fcc (update v7.6 and lot of improvements)
             >
               {card.title}
             </h3>
@@ -147,9 +232,19 @@ const KanbanCard = ({
             <button tabIndex={0} className="btn btn-ghost btn-xs opacity-0 group-hover:opacity-100 transition-opacity">
               <MoreHorizontal size={16} />
             </button>
+<<<<<<< HEAD
             <ul tabIndex={0} className="dropdown-content menu p-2 shadow-lg bg-base-200 rounded-lg w-40 z-50 border border-base-300">
               <li><a onClick={onEdit}><Edit2 size={14} /> Edit</a></li>
               <li><a onClick={onDelete} className="text-error"><Trash2 size={14} /> Delete</a></li>
+=======
+            <ul tabIndex={0} className="dropdown-content menu p-2 shadow-lg bg-base-200 rounded-lg w-44 z-50 border border-base-300">
+              <li><a onClick={onEdit}><Edit2 size={14} /> Edit</a></li>
+              <li><a onClick={onDuplicate}><Copy size={14} /> Duplicate</a></li>
+              <li><a onClick={onArchive}><Archive size={14} /> Archive</a></li>
+              <li className="border-t border-base-300 mt-1 pt-1">
+                <a onClick={onDelete} className="text-error"><Trash2 size={14} /> Delete</a>
+              </li>
+>>>>>>> d2c9fcc (update v7.6 and lot of improvements)
             </ul>
           </div>
         </div>
@@ -158,6 +253,7 @@ const KanbanCard = ({
           <p className="text-xs opacity-70 mb-2 line-clamp-2">{card.description}</p>
         )}
 
+<<<<<<< HEAD
         {card.labels.length > 0 && (
           <div className="flex flex-wrap gap-1 mb-2">
             {card.labels.map((label) => (
@@ -169,13 +265,37 @@ const KanbanCard = ({
                 {label.text}
               </span>
             ))}
+=======
+        {card.labels && card.labels.length > 0 && (
+          <div className="flex flex-wrap gap-1 mb-2">
+            {card.labels.slice(0, 4).map((label) => (
+              <div
+                key={typeof label === 'string' ? label : label.id}
+                className="badge badge-sm font-medium"
+                style={{ 
+                  backgroundColor: typeof label === 'string' ? '#3b82f6' : label.color, 
+                  color: 'white', 
+                  border: 'none' 
+                }}
+              >
+                {typeof label === 'string' ? label : label.text}
+              </div>
+            ))}
+            {card.labels.length > 4 && (
+              <div className="badge badge-sm badge-ghost">+{card.labels.length - 4}</div>
+            )}
+>>>>>>> d2c9fcc (update v7.6 and lot of improvements)
           </div>
         )}
 
         {!cardCompactView && (
           <div className="flex items-center gap-3 text-xs opacity-70 flex-wrap">
             {totalTasks > 0 && (
+<<<<<<< HEAD
               <div className="flex items-center gap-1">
+=======
+              <div className={`flex items-center gap-1 ${completedTasks === totalTasks ? 'text-success font-bold' : ''}`}>
+>>>>>>> d2c9fcc (update v7.6 and lot of improvements)
                 <CheckSquare size={14} />
                 <span>{completedTasks}/{totalTasks}</span>
               </div>
@@ -183,18 +303,31 @@ const KanbanCard = ({
             {card.dueDate && (
               <div className={`flex items-center gap-1 ${isOverdue ? 'text-error font-bold' : ''}`}>
                 <Calendar size={14} />
+<<<<<<< HEAD
                 <span>{new Date(card.dueDate).toLocaleDateString()}</span>
               </div>
             )}
             {card.pomodorosSpent > 0 && (
+=======
+                <span>{new Date(card.dueDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+              </div>
+            )}
+            {card.pomodorosSpent && card.pomodorosSpent > 0 && (
+>>>>>>> d2c9fcc (update v7.6 and lot of improvements)
               <div className="flex items-center gap-1">
                 <Clock size={14} />
                 <span>{card.pomodorosSpent}🍅</span>
               </div>
             )}
             {showCardAge && cardAge > 0 && (
+<<<<<<< HEAD
               <div className="flex items-center gap-1">
                 <span>{cardAge}d old</span>
+=======
+              <div className="flex items-center gap-1 text-warning">
+                <Activity size={14} />
+                <span>{cardAge}d</span>
+>>>>>>> d2c9fcc (update v7.6 and lot of improvements)
               </div>
             )}
           </div>
@@ -202,12 +335,21 @@ const KanbanCard = ({
 
         <div className="mt-2 flex items-center gap-2">
           <span className={`badge badge-sm ${getPriorityColor(card.priority)}`}>
+<<<<<<< HEAD
             {card.priority}
+=======
+            <Flag size={10} className="mr-1" />
+            {card.priority || 'medium'}
+>>>>>>> d2c9fcc (update v7.6 and lot of improvements)
           </span>
           {totalTasks > 0 && (
             <div className="flex-1">
               <progress 
+<<<<<<< HEAD
                 className="progress progress-success h-1 w-full" 
+=======
+                className={`progress h-1 w-full ${completedTasks === totalTasks ? 'progress-success' : 'progress-primary'}`}
+>>>>>>> d2c9fcc (update v7.6 and lot of improvements)
                 value={completedTasks} 
                 max={totalTasks}
               />
@@ -219,6 +361,7 @@ const KanbanCard = ({
   );
 };
 
+<<<<<<< HEAD
 // EditCardModal Component
 const EditCardModal = ({
   card,
@@ -236,6 +379,19 @@ const EditCardModal = ({
   const [priority, setPriority] = useState(card.priority);
   const [dueDate, setDueDate] = useState(card.dueDate || '');
   const { addChecklistItem, toggleChecklistItem, deleteChecklistItem, addLabel, removeLabel } = useKanbanStore();
+=======
+// ✅ EditCardModal
+const EditCardModal = ({
+  card, onClose, onUpdate,
+}: {
+  card: Card; onClose: () => void; onUpdate: (updates: Partial<Card>) => void;
+}) => {
+  const [title, setTitle] = useState(card.title);
+  const [description, setDescription] = useState(card.description || '');
+  const [priority, setPriority] = useState(card.priority || 'medium');
+  const [dueDate, setDueDate] = useState(card.dueDate || '');
+  const { addChecklistItem, toggleChecklistItem, deleteChecklistItem } = useKanbanStore();
+>>>>>>> d2c9fcc (update v7.6 and lot of improvements)
   const [newChecklistItem, setNewChecklistItem] = useState('');
 
   const handleSave = () => {
@@ -251,7 +407,11 @@ const EditCardModal = ({
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50" onClick={onClose}>
+<<<<<<< HEAD
       <div className="bg-base-200 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-base-300 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+=======
+      <div className="bg-base-200 rounded-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto border border-base-300 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+>>>>>>> d2c9fcc (update v7.6 and lot of improvements)
         <div className="p-6 space-y-4">
           <div className="flex justify-between items-center pb-4 border-b border-base-300">
             <h3 className="text-2xl font-bold">Edit Card</h3>
@@ -267,16 +427,27 @@ const EditCardModal = ({
 
           <div>
             <label className="label"><span className="label-text font-semibold">Description</span></label>
+<<<<<<< HEAD
             <textarea className="textarea textarea-bordered w-full h-24" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Add a more detailed description..." />
+=======
+            <textarea className="textarea textarea-bordered w-full h-32" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Add description..." />
+>>>>>>> d2c9fcc (update v7.6 and lot of improvements)
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="label"><span className="label-text font-semibold">Priority</span></label>
+<<<<<<< HEAD
               <select className="select select-bordered w-full" value={priority} onChange={(e) => setPriority(e.target.value as Card['priority'])}>
                 <option value="low">Low Priority</option>
                 <option value="medium">Medium Priority</option>
                 <option value="high">High Priority</option>
+=======
+              <select className="select select-bordered w-full" value={priority} onChange={(e) => setPriority(e.target.value as any)}>
+                <option value="low">🟢 Low</option>
+                <option value="medium">🟡 Medium</option>
+                <option value="high">🔴 High</option>
+>>>>>>> d2c9fcc (update v7.6 and lot of improvements)
               </select>
             </div>
             <div>
@@ -285,6 +456,7 @@ const EditCardModal = ({
             </div>
           </div>
 
+<<<<<<< HEAD
           <div>
             <label className="label"><span className="label-text font-semibold flex items-center gap-2"><Tag size={16} /> Labels</span></label>
             <div className="flex flex-wrap gap-2 mb-3">
@@ -342,6 +514,47 @@ const EditCardModal = ({
 
           <div className="flex gap-2 pt-4 border-t border-base-300">
             <button onClick={handleSave} className="btn btn-primary flex-1 gap-2"><Save size={18} /> Save Changes</button>
+=======
+          {card.checklist && card.checklist.length > 0 && (
+            <div>
+              <label className="label">
+                <span className="label-text font-semibold">
+                  Checklist ({card.checklist.filter(i => i.completed).length}/{card.checklist.length})
+                </span>
+              </label>
+              <div className="space-y-2 max-h-48 overflow-y-auto">
+                {card.checklist.map((item) => (
+                  <div key={item.id} className="flex items-center gap-2 p-2 bg-base-100 rounded-lg">
+                    <input type="checkbox" className="checkbox checkbox-sm checkbox-primary" checked={item.completed} onChange={() => toggleChecklistItem(card.id, item.id)} />
+                    <span className={`flex-1 text-sm ${item.completed ? 'line-through opacity-50' : ''}`}>{item.text}</span>
+                    <button onClick={() => deleteChecklistItem(card.id, item.id)} className="btn btn-ghost btn-xs text-error">
+                      <Trash2 size={12} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className="flex gap-2">
+            <input
+              type="text"
+              className="input input-bordered flex-1 input-sm"
+              placeholder="Add checklist item..."
+              value={newChecklistItem}
+              onChange={(e) => setNewChecklistItem(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && handleAddChecklistItem()}
+            />
+            <button onClick={handleAddChecklistItem} className="btn btn-sm btn-primary gap-2">
+              <Plus size={14} /> Add
+            </button>
+          </div>
+
+          <div className="flex gap-2 pt-4 border-t border-base-300">
+            <button onClick={handleSave} className="btn btn-primary flex-1 gap-2">
+              <Save size={18} /> Save
+            </button>
+>>>>>>> d2c9fcc (update v7.6 and lot of improvements)
             <button onClick={onClose} className="btn btn-outline">Cancel</button>
           </div>
         </div>
@@ -350,20 +563,31 @@ const EditCardModal = ({
   );
 };
 
+<<<<<<< HEAD
 // List Component
 const KanbanList = ({ list }: { list: List }) => {
   const { cards, addCard, updateCard, deleteCard, updateList, deleteList } = useKanbanStore();
   const { customLabels } = useSettingsStore();
+=======
+// ✅ List Component
+const KanbanList = ({ list }: { list: List }) => {
+  const { cards, addCard, updateCard, deleteCard, updateList, deleteList, duplicateCard, archiveCard } = useKanbanStore();
+>>>>>>> d2c9fcc (update v7.6 and lot of improvements)
   const [showAddCard, setShowAddCard] = useState(false);
   const [newCardTitle, setNewCardTitle] = useState('');
   const [editingCard, setEditingCard] = useState<Card | null>(null);
 
+<<<<<<< HEAD
   const listCards = list.cards.map((cardId: string) => cards[cardId]).filter(Boolean);
 
   const { setNodeRef } = useSortable({
     id: list.id,
     data: { type: 'list' },
   });
+=======
+  const listCards = list.cards?.map((cardId: string) => cards[cardId]).filter(Boolean) || [];
+  const { setNodeRef } = useSortable({ id: list.id, data: { type: 'list' } });
+>>>>>>> d2c9fcc (update v7.6 and lot of improvements)
 
   const handleAddCard = () => {
     if (newCardTitle.trim()) {
@@ -374,6 +598,7 @@ const KanbanList = ({ list }: { list: List }) => {
   };
 
   return (
+<<<<<<< HEAD
     <div ref={setNodeRef} className="bg-base-200 rounded-xl p-4 w-80 flex-shrink-0 flex flex-col max-h-full border border-base-300 hover:border-primary/50 transition-colors">
       <div className="flex justify-between items-center mb-4 pb-3 border-b border-base-300">
         <h2 className="font-bold text-lg">{list.title}</h2>
@@ -395,6 +620,28 @@ const KanbanList = ({ list }: { list: List }) => {
               }} className="text-error"><Trash2 size={14} /> Delete</a></li>
             </ul>
           </div>
+=======
+    <div ref={setNodeRef} className="bg-base-200 rounded-xl p-4 w-80 flex-shrink-0 flex flex-col max-h-full border border-base-300 hover:border-primary/50 transition-all hover:shadow-lg">
+      <div className="flex justify-between items-center mb-4 pb-3 border-b border-base-300">
+        <div className="flex items-center gap-2">
+          <h2 className="font-bold text-lg">{list.title}</h2>
+          <span className="badge badge-primary badge-sm">{listCards.length}</span>
+        </div>
+        <div className="dropdown dropdown-end">
+          <button tabIndex={0} className="btn btn-ghost btn-xs">
+            <MoreHorizontal size={16} />
+          </button>
+          <ul tabIndex={0} className="dropdown-content menu p-2 shadow-lg bg-base-300 rounded-lg w-44 z-50 border border-base-300">
+            <li><a onClick={() => {
+              const newTitle = prompt('Enter new list name:', list.title);
+              if (newTitle && newTitle.trim()) updateList(list.id, { title: newTitle.trim() });
+            }}><Edit2 size={14} /> Rename</a></li>
+            <li className="border-t border-base-300 mt-1 pt-1">
+              <a onClick={() => {
+                if (confirm(`Delete "${list.title}"?`)) deleteList(list.id);
+              }} className="text-error"><Trash2 size={14} /> Delete</a></li>
+          </ul>
+>>>>>>> d2c9fcc (update v7.6 and lot of improvements)
         </div>
       </div>
 
@@ -407,6 +654,7 @@ const KanbanList = ({ list }: { list: List }) => {
               cardNumber={index + 1}
               onEdit={() => setEditingCard(card)}
               onDelete={() => deleteCard(card.id)}
+<<<<<<< HEAD
             />
           ))}
         </SortableContext>
@@ -416,6 +664,24 @@ const KanbanList = ({ list }: { list: List }) => {
         <div className="bg-base-100 p-3 rounded-lg border border-primary/50 shadow-md">
           <textarea
             placeholder="Enter card title..."
+=======
+              onDuplicate={() => duplicateCard(card.id)}
+              onArchive={() => archiveCard(card.id)}
+            />
+          ))}
+        </SortableContext>
+        {listCards.length === 0 && (
+          <div className="text-center py-8 opacity-50">
+            <p className="text-sm">No cards yet</p>
+          </div>
+        )}
+      </div>
+
+      {showAddCard ? (
+        <div className="bg-base-100 p-3 rounded-lg border-2 border-primary shadow-md">
+          <textarea
+            placeholder="Card title..."
+>>>>>>> d2c9fcc (update v7.6 and lot of improvements)
             className="textarea textarea-bordered w-full resize-none"
             rows={2}
             value={newCardTitle}
@@ -432,6 +698,7 @@ const KanbanList = ({ list }: { list: List }) => {
             autoFocus
           />
           <div className="flex gap-2 mt-2">
+<<<<<<< HEAD
             <button onClick={handleAddCard} className="btn btn-primary btn-sm flex-1">Add</button>
             <button onClick={() => {
               setShowAddCard(false);
@@ -442,6 +709,22 @@ const KanbanList = ({ list }: { list: List }) => {
       ) : (
         <button onClick={() => setShowAddCard(true)} className="btn btn-ghost btn-sm justify-start gap-2 hover:bg-base-300">
           <Plus size={16} /> Add Card
+=======
+            <button onClick={handleAddCard} className="btn btn-primary btn-sm gap-2">
+              <Save size={14} /> Add
+            </button>
+            <button onClick={() => setShowAddCard(false)} className="btn btn-ghost btn-sm">
+              Cancel
+            </button>
+          </div>
+        </div>
+      ) : (
+        <button
+          onClick={() => setShowAddCard(true)}
+          className="btn btn-ghost w-full justify-start text-sm text-primary hover:bg-primary/10 transition-all"
+        >
+          <Plus size={14} className="mr-2" /> Add Card
+>>>>>>> d2c9fcc (update v7.6 and lot of improvements)
         </button>
       )}
 
@@ -453,13 +736,17 @@ const KanbanList = ({ list }: { list: List }) => {
             updateCard(editingCard.id, updates);
             setEditingCard(null);
           }}
+<<<<<<< HEAD
           availableLabels={customLabels}
+=======
+>>>>>>> d2c9fcc (update v7.6 and lot of improvements)
         />
       )}
     </div>
   );
 };
 
+<<<<<<< HEAD
 // Main Kanban Component
 const Kanban = () => {
   const { lists, addList, moveCard } = useKanbanStore();
@@ -481,6 +768,20 @@ const Kanban = () => {
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
+=======
+// ✅ Main Kanban Component
+const Kanban = () => {
+  const { lists, addList, moveCard, cards } = useKanbanStore();
+  const [activeId, setActiveId] = useState<string | null>(null);
+  const [newListTitle, setNewListTitle] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(MouseSensor),
+    useSensor(TouchSensor),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+>>>>>>> d2c9fcc (update v7.6 and lot of improvements)
   );
 
   const handleDragStart = (event: DragStartEvent) => {
@@ -489,6 +790,7 @@ const Kanban = () => {
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
+<<<<<<< HEAD
     if (!over || !enableDragDrop) return;
 
     if (active.id !== over.id) {
@@ -501,10 +803,24 @@ const Kanban = () => {
       }
     }
     setActiveId(null);
+=======
+    setActiveId(null);
+    if (!over) return;
+
+    // Card drag logic
+    const activeList = Object.values(lists).find((l) => l.cards?.includes(active.id as string));
+    const overList = Object.values(lists).find((l) => l.cards?.includes(over.id as string));
+
+    if (activeList && overList) {
+      const newPosition = overList.cards?.indexOf(over.id as string) ?? 0;
+      moveCard(active.id as string, activeList.id, overList.id, newPosition);
+    }
+>>>>>>> d2c9fcc (update v7.6 and lot of improvements)
   };
 
   const handleAddList = () => {
     if (newListTitle.trim()) {
+<<<<<<< HEAD
       addList(newListTitle.trim());
       setNewListTitle('');
       setShowAddList(false);
@@ -573,6 +889,125 @@ const Kanban = () => {
           </DragOverlay>
         </DndContext>
       </div>
+=======
+      addList(newListTitle);
+      setNewListTitle('');
+    }
+  };
+
+  // Simplified filtering
+  const filteredLists = searchQuery
+    ? Object.values(lists).map((list) => ({
+        ...list,
+        cards: list.cards?.filter((cardId) => {
+          const card = cards[cardId];
+          if (!card) return false;
+          const query = searchQuery.toLowerCase();
+          return (
+            card.title.toLowerCase().includes(query) ||
+            (card.description && card.description.toLowerCase().includes(query))
+          );
+        }) || [],
+      }))
+    : Object.values(lists);
+
+  return (
+    <div className="h-full flex flex-col">
+      <div className="p-4 flex justify-between items-center border-b border-base-300 bg-base-200/50 backdrop-blur-md sticky top-0 z-40">
+        <div className="flex items-center gap-3">
+          <h1 className="text-2xl font-bold">Kanban Board</h1>
+          <span className="text-sm opacity-70">({Object.keys(lists).length} lists)</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="form-control">
+            <div className="input-group input-group-sm">
+              <span>
+                <Search size={14} />
+              </span>
+              <input
+                type="text"
+                placeholder="Search cards..."
+                className="input input-bordered input-sm"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+      >
+        <div className="flex gap-4 p-4 overflow-x-auto custom-scrollbar flex-1">
+          <SortableContext items={Object.keys(lists)} strategy={verticalListSortingStrategy}>
+            {filteredLists.map((list) => (
+              <KanbanList key={list.id} list={list} />
+            ))}
+          </SortableContext>
+
+          {/* Add List Section */}
+          <div className="w-80 flex-shrink-0">
+            <div className="bg-base-200 border border-base-300 rounded-xl p-4 hover:shadow-md transition-all">
+              <h2 className="font-semibold mb-2">Add New List</h2>
+              <input
+                type="text"
+                placeholder="List title..."
+                className="input input-bordered input-sm w-full mb-2"
+                value={newListTitle}
+                onChange={(e) => setNewListTitle(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') handleAddList();
+                }}
+              />
+              <button onClick={handleAddList} className="btn btn-sm btn-primary w-full gap-2">
+                <Plus size={14} /> Add List
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <DragOverlay>
+          {activeId && cards[activeId] ? (
+            <div className="opacity-80">
+              <KanbanCard
+                card={cards[activeId]}
+                onEdit={() => {}}
+                onDelete={() => {}}
+                onDuplicate={() => {}}
+                onArchive={() => {}}
+              />
+            </div>
+          ) : null}
+        </DragOverlay>
+      </DndContext>
+
+      <style>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 6px;
+          height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: hsl(var(--bc) / 0.2);
+          border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: hsl(var(--bc) / 0.3);
+        }
+        .line-clamp-2 {
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+      `}</style>
+>>>>>>> d2c9fcc (update v7.6 and lot of improvements)
     </div>
   );
 };
