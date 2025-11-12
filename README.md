@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # 🧠 FocusFlow – Stay Productive, Stay Sane
 
 > A sleek, minimal productivity app built with **React + TypeScript + Vite + TailwindCSS** to help you focus, manage tasks, and track your flow state — without the clutter.
